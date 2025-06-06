@@ -51,7 +51,7 @@ async function startPractice() {
             window.open(redirectUrl, '_blank');
 
             // Hide main button and show completion buttons
-            button.style.display = 'none';
+            button.classList.add('hidden');
             completionButtons.classList.add('show');
         } else {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -92,7 +92,7 @@ async function markCompleted(completed) {
         if (response.ok) {
             // Hide completion buttons and show main button again
             completionButtons.classList.remove('show');
-            mainButton.style.display = 'block';
+            mainButton.classList.remove('hidden');
             mainButton.textContent = 'Practice question';
             mainButton.disabled = false;
         } else {
@@ -105,7 +105,7 @@ async function markCompleted(completed) {
         // Reset completion buttons
         buttons.forEach((btn, index) => {
             btn.disabled = false;
-            btn.textContent = index === 0 ? 'Completed' : 'Did Not Complete';
+            btn.textContent = index === 0 ? 'Completed' : 'Attempted';
         });
     }
 }

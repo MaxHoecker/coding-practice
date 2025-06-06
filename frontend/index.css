@@ -5,50 +5,97 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
+    padding: 20px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-sizing: border-box;
 }
 
 .container {
     text-align: center;
-    padding: 40px;
+    padding: 30px;
     background: white;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
 }
 
 #mainButton {
-    padding: 20px 40px;
-    font-size: 1.5em;
+    padding: 18px 30px;
+    font-size: 1.3em;
     font-weight: bold;
     border: none;
     border-radius: 15px;
     cursor: pointer;
     transition: all 0.3s ease;
     color: white;
-    min-width: 250px;
+    width: 100%;
+    max-width: 280px;
+    min-height: 60px;
+    box-sizing: border-box;
+    display: block;
+    margin: 0 auto;
+}
+
+#mainButton.hidden {
+    display: none;
 }
 
 .completion-buttons {
     display: none;
-    gap: 20px;
-    margin-top: 20px;
+    gap: 15px;
+    flex-direction: column;
+    align-items: center;
 }
 
 .completion-buttons.show {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .completion-btn {
-    padding: 15px 30px;
-    font-size: 1.2em;
+    padding: 15px 25px;
+    font-size: 1.1em;
     font-weight: bold;
     border: none;
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
     color: white;
-    min-width: 150px;
+    width: 200px;
+    min-height: 50px;
+    box-sizing: border-box;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+    body {
+        padding: 40px;
+    }
+    
+    .container {
+        padding: 40px;
+    }
+    
+    #mainButton {
+        padding: 20px 40px;
+        font-size: 1.5em;
+        min-width: 250px;
+        width: auto;
+    }
+    
+    .completion-buttons {
+        flex-direction: row;
+        gap: 20px;
+    }
+    
+    .completion-btn {
+        padding: 15px 30px;
+        font-size: 1.2em;
+        width: 180px;
+    }
 }
 
 .completion-btn.completed {

@@ -23,6 +23,6 @@ jobs:
           port: 22
           script: |
             cd /home/practice-app/coding-practice
-            git pull origin main
-            chmod +x deploy.sh
+            sudo git pull origin main
+            sudo chmod +x deploy.sh
             sudo sh deploy.sh

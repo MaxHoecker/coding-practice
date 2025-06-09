@@ -1,0 +1,37 @@
+[Unit]
+Description=FastAPI Backend Service
+After=network.target
+Wants=network.target
+
+[Service]
+Type=exec
+User=practice-app
+Group=practice-app
+WorkingDirectory=/home/practice-app/coding-practice/backend
+Environment=PATH=/home/practice-app/coding-practice/backend/.venv/bin
+Environment=PYTHONPATH=/home/practice-app/coding-practice/backend
+ExecStart=/home/practice-app/coding-practice/backend/.venv/bin/fastapi run
+Restart=always
+RestartSec=5
+KillMode=mixed
+TimeoutStopSec=5
+
+# Security settings (temporarily relaxed for debugging)
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=/home/practice-app/coding-practice/backend/logs /home/practice-app/coding-practice/backend/data
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=fastapi-backend
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=4096
+
+[Install]
+WantedBy=multi-user.target

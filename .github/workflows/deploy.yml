@@ -22,8 +22,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            sudo su
             cd /home/practice-app/coding-practice
             git pull origin main
             chmod +x deploy.sh
-            ./deploy.sh
+            sudo sh deploy.sh

@@ -5,6 +5,11 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+env:
+  EC2_HOST: ${{ secrets.EC2_HOST }}
+  EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+  EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -14,12 +19,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Debug Environment Variables
+        run: |
+          echo "EC2_HOST is set: ${{ env.EC2_HOST != '' }}"
+          echo "EC2_USERNAME is set: ${{ env.EC2_USERNAME != '' }}"
+          echo "EC2_PORT is set: ${{ env.EC2_PORT != '' }}"
+
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          host: ${{ env.EC2_HOST }}
+          username: ${{ env.EC2_USERNAME }}
+          key: ${{ env.EC2_SSH_KEY }}
           port: 22
           script: |
             cd /home/practice-app/coding-practice

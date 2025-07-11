@@ -1,0 +1,353 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #2d3748;
+    margin-bottom: 30px;
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+
+.section {
+    margin-bottom: 30px;
+    padding: 25px;
+    background: #f8fafc;
+    border-radius: 15px;
+    border: 1px solid #e2e8f0;
+}
+
+.section h2 {
+    color: #4a5568;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.percentage-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.slider-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.slider-label {
+    min-width: 140px;
+    font-weight: 500;
+    color: #2d3748;
+}
+
+.slider-container {
+    flex: 1;
+    position: relative;
+}
+
+.slider {
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: #e2e8f0;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.percentage-display {
+    min-width: 50px;
+    font-weight: 600;
+    color: #2d3748;
+    text-align: right;
+}
+
+.total-display {
+    text-align: center;
+    margin-top: 15px;
+    padding: 10px;
+    background: #edf2f7;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.valid { color: #38a169; }
+.invalid { color: #e53e3e; }
+
+.time-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.time-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.time-label {
+    font-weight: 500;
+    color: #2d3748;
+}
+
+select, input[type="number"] {
+    padding: 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 16px;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+select:focus, input[type="number"]:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.presets {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.preset-btn {
+    padding: 8px 16px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.preset-btn:hover {
+    background: #5a67d8;
+    transform: translateY(-1px);
+}
+
+.save-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.visual-bar {
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 15px;
+    display: flex;
+    background: #e2e8f0;
+}
+
+.bar-segment {
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.new-segment { background: #667eea; }
+.attempted-segment { background: #ed8936; }
+.completed-segment { background: #48bb78; }
+
+.legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.tooltip-container {
+    margin-top: 30px;
+    margin-bottom: 25px;
+}
+
+.info-tooltip {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 15px;
+    background: #f0f7ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.tooltip-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.tooltip-text {
+    color: #1e40af;
+}
+
+.tooltip-text strong {
+    color: #1e3a8a;
+}
+
+.difficulty-controls {
+    text-align: center;
+}
+
+.difficulty-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.difficulty-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 110px;
+}
+
+.difficulty-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.difficulty-btn#easyBtn {
+    color: #48bb78;
+    border-color: #d1fae5;
+}
+
+.difficulty-btn#easyBtn:hover {
+    border-color: #48bb78;
+}
+
+.difficulty-btn#easyBtn.active {
+    background: #48bb78;
+    border-color: #48bb78;
+    color: white;
+}
+
+.difficulty-btn#mediumBtn {
+    color: #ed8936;
+    border-color: #fed7aa;
+}
+
+.difficulty-btn#mediumBtn:hover {
+    border-color: #ed8936;
+}
+
+.difficulty-btn#mediumBtn.active {
+    background: #ed8936;
+    border-color: #ed8936;
+    color: white;
+}
+
+.difficulty-btn#hardBtn {
+    color: #ee5a52;
+    border-color: #ffa1a1;
+}
+
+.difficulty-btn#hardBtn:hover {
+    border-color: #ee5a52;
+}
+
+.difficulty-btn#hardBtn.active {
+    background: #ee5a52;
+    border-color: #ee5a52;
+    color: white;
+}
+
+.difficulty-icon {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.difficulty-btn.active .difficulty-icon {
+    opacity: 1;
+}
+
+.difficulty-note {
+    font-size: 14px;
+    color: #6b7280;
+    font-style: italic;
+}

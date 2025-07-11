@@ -109,3 +109,8 @@ async function markCompleted(completed) {
         });
     }
 }
+
+function goToSettings() {
+    // Replace with your actual settings page URL
+    window.location.href = 'settings.html';
+}

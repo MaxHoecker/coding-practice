@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Frequency Settings</title>
+    <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+<div class="container">
+    <h1>Practice Question Settings</h1>
+
+    <div class="section">
+        <h2>Question Distribution</h2>
+        <div class="percentage-controls">
+            <div class="slider-group">
+                <div class="slider-label">New Questions</div>
+                <div class="slider-container">
+                    <input type="range" id="newSlider" class="slider" min="0" max="100" value="60">
+                </div>
+                <div class="percentage-display" id="newPercent">60%</div>
+            </div>
+
+            <div class="slider-group">
+                <div class="slider-label">Attempted</div>
+                <div class="slider-container">
+                    <input type="range" id="attemptedSlider" class="slider" min="0" max="100" value="25">
+                </div>
+                <div class="percentage-display" id="attemptedPercent">25%</div>
+            </div>
+
+            <div class="slider-group">
+                <div class="slider-label">Completed</div>
+                <div class="slider-container">
+                    <input type="range" id="completedSlider" class="slider" min="0" max="100" value="15">
+                </div>
+                <div class="percentage-display" id="completedPercent">15%</div>
+            </div>
+        </div>
+
+        <div class="total-display" id="totalDisplay">
+            <span class="valid">Total: 100%</span>
+        </div>
+
+        <div class="visual-bar">
+            <div class="bar-segment new-segment" id="newBar"></div>
+            <div class="bar-segment attempted-segment" id="attemptedBar"></div>
+            <div class="bar-segment completed-segment" id="completedBar"></div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color new-segment"></div>
+                <span>New Questions</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color attempted-segment"></div>
+                <span>Attempted</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color completed-segment"></div>
+                <span>Completed</span>
+            </div>
+        </div>
+
+        <div class="presets">
+            <button class="preset-btn" onclick="setPreset(34, 33, 33)">Equal Split</button>
+            <button class="preset-btn" onclick="setPreset(70, 20, 10)">Focus New</button>
+            <button class="preset-btn" onclick="setPreset(10, 20, 70)">Review Heavy</button>
+            <button class="preset-btn" onclick="setPreset(50, 30, 20)">Balanced</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Question Difficulty</h2>
+        <div class="difficulty-controls">
+            <div class="difficulty-buttons">
+                <button type="button" class="difficulty-btn active" id="easyBtn" onclick="toggleDifficulty('easy')">
+                    Easy
+                </button>
+                <button type="button" class="difficulty-btn active" id="mediumBtn" onclick="toggleDifficulty('medium')">
+                    Medium
+                </button>
+                <button type="button" class="difficulty-btn active" id="hardBtn" onclick="toggleDifficulty('hard')">
+                    Hard
+                </button>
+            </div>
+            <div class="difficulty-note">
+                Select at least one difficulty level
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Timing Controls</h2>
+        <div class="time-controls">
+            <div class="time-group">
+                <label class="time-label">Show attempted questions again after:</label>
+                <select id="attemptedTime">
+                    <option value="1">1 day</option>
+                    <option value="3" selected>3 days</option>
+                    <option value="7">1 week</option>
+                    <option value="14">2 weeks</option>
+                    <option value="30">1 month</option>
+                </select>
+            </div>
+
+            <div class="time-group">
+                <label class="time-label">Show completed questions again after:</label>
+                <select id="completedTime">
+                    <option value="1">1 day</option>
+                    <option value="7" selected>1 week</option>
+                    <option value="14">2 weeks</option>
+                    <option value="30">1 month</option>
+                    <option value="60">2 months</option>
+                    <option value="90">3 months</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip-container">
+        <div class="info-tooltip">
+            <span class="tooltip-icon">ℹ️</span>
+            <span class="tooltip-text">
+                    <strong>Note:</strong> If no valid attempted or completed questions are available (due to timing restrictions or completion status), the system will automatically select a new question instead.
+                </span>
+        </div>
+    </div>
+
+    <button class="save-btn" onclick="saveSettings()">Save Settings</button>
+</div>
+
+<script src="settings.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+
+CREATE TABLE IF NOT EXISTS topics (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    slug TEXT NOT NULL
+);

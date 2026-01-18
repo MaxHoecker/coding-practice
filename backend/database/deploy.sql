@@ -1,0 +1,1 @@
+.read deployScripts/init_database.sql

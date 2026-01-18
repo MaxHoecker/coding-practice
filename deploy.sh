@@ -22,6 +22,11 @@ print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
+print_status "Installing sqlite3 package..."
+
+sudo apt update
+sudo apt install sqlite3
+
 print_status "Starting deployment..."
 
 # Check if running as root or with sudo
@@ -97,6 +102,11 @@ print_status "Frontend files copied to /usr/share/nginx/frontend/"
 print_status "Setting proper permissions..."
 chown -R nginx:nginx /usr/share/nginx/frontend/ 2>/dev/null || chown -R www-data:www-data /usr/share/nginx/frontend/ 2>/dev/null || true
 chmod -R 755 /usr/share/nginx/frontend/
+
+print_status "running database deploy script deploy.sql..."
+cd /home/practice-app/coding-practice/backend/database
+sqlite3 database.db ".read deploy.sql"
+cd /home/practice-app/coding-practice
 
 # Handle systemd service
 SERVICE_SOURCE="/home/practice-app/coding-practice/backend/fastapi-backend.service"

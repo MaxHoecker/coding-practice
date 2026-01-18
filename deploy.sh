@@ -24,8 +24,8 @@ print_error() {
 
 print_status "Installing sqlite3 package..."
 
-sudo apt update
-sudo apt install sqlite3
+sudo dnf update
+sudo dnf install sqlite3
 
 print_status "Starting deployment..."
 

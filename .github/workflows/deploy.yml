@@ -23,5 +23,5 @@ jobs:
           port: 22
           script: |
             cd /home/practice-app/coding-practice
-            git reset --hard origin/main
+            sudo git reset --hard origin/main
             sudo sh deploy.sh

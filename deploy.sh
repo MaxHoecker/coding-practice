@@ -24,8 +24,8 @@ print_error() {
 
 print_status "Installing sqlite3 package..."
 
-sudo dnf update
-sudo dnf install sqlite3
+sudo dnf update -y
+sudo dnf install sqlite-devel -y
 
 print_status "Starting deployment..."
 

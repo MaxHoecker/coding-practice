@@ -45,9 +45,9 @@ class CSVDatabase:
                 if int(row['id']) == question_id:
                     return Question(
                         id=int(row['id']),
-                        name=row['name'],
+                        name=row['titleSlug'],
                         difficulty=row['difficulty'],
-                        topics=row['topics'].split('|')
+                        topics=row['topicTags'].split('|')
                     )
         return None
     
@@ -58,9 +58,9 @@ class CSVDatabase:
             for row in reader:
                 questions.append(Question(
                     id=int(row['id']),
-                    name=row['name'],
+                    name=row['titleSlug'],
                     difficulty=row['difficulty'],
-                    topics=row['topics'].split('|')
+                    topics=row['topicTags'].split('|')
                 ))
         return questions
     

@@ -1,5 +1,5 @@
 let userId = null;
-let BACKEND_URL = 'https://coding-practice.com/api'
+let BACKEND_URL = ' http://127.0.0.1:8000'
 
 // Generate unique ID and store in localStorage
 function initializeUserId() {

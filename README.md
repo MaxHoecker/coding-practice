@@ -47,6 +47,11 @@ A full-stack web application for simplifying the coding practice process.
    cd backend
    ```
 
+2. Activate venv:
+   ```bash
+   .\.venv\Scripts\activate
+   ```
+
 2. Install dependencies:
    ```bash
    pip install -r requirements.txt

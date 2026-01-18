@@ -3,6 +3,7 @@ from models import UserAttempt
 from typing import Optional
 from datetime import datetime
 import uuid
+import random
 
 class UserAttemptService:
     def __init__(self, db: CSVDatabase):
@@ -15,7 +16,7 @@ class UserAttemptService:
         if not questions:
             return {"message": "No questions available"}
         
-        question = questions[0]  # Simple logic - get first question
+        question = questions[random.randrange(0, len(questions))]  # Simple logic - get first question
         
         # Create user attempt record
         attempt = UserAttempt(

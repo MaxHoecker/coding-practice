@@ -1,3 +1,7 @@
+const BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:8000'
+    : 'https://coding-practice.com/api';
+
 let isUpdating = false;
 
 const sliders = {
@@ -130,7 +134,7 @@ async function saveSettings() {
     }
 
     try {
-        const response = await fetch('http://localhost:8000/user/settings', {
+        const response = await fetch(`${BACKEND_URL}/user/settings`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -151,7 +155,7 @@ async function saveSettings() {
 
 async function loadSettings() {
     try {
-        const response = await fetch('http://localhost:8000/user/settings');
+        const response = await fetch(`${BACKEND_URL}/user/settings`);
 
         if (response.ok) {
             const settings = await response.json();

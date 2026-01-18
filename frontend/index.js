@@ -1,5 +1,7 @@
 let userId = null;
-let BACKEND_URL = ' http://127.0.0.1:8000'
+const BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:8000'
+    : 'https://coding-practice.com/api';
 
 // Generate unique ID and store in localStorage
 function initializeUserId() {

@@ -25,4 +25,4 @@ jobs:
             cd /home/practice-app/coding-practice
             git fetch origin main
             git reset --hard origin/main
-            sh deploy.sh
+            sudo sh deploy.sh

@@ -22,6 +22,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
+            set -e
             cd /home/practice-app/coding-practice
             sudo -u practice-app git fetch origin main
             sudo -u practice-app git reset --hard origin/main

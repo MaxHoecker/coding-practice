@@ -26,6 +26,7 @@ print_status "Installing sqlite3 package..."
 
 sudo dnf update -y
 sudo dnf install sqlite-devel -y
+sudo dnf install python3.12 -y
 
 print_status "Starting deployment..."
 

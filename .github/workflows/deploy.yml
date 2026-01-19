@@ -23,6 +23,6 @@ jobs:
           port: 22
           script: |
             cd /home/practice-app/coding-practice
-            git fetch origin main
-            git reset --hard origin/main
+            sudo -u practice-app git fetch origin main
+            sudo -u practice-app git reset --hard origin/main
             sudo sh deploy.sh

@@ -105,9 +105,8 @@ chown -R nginx:nginx /usr/share/nginx/frontend/ 2>/dev/null || chown -R www-data
 chmod -R 755 /usr/share/nginx/frontend/
 
 print_status "running database deploy script deploy.sql..."
-sudo setenforce 0
 sudo cd /home/practice-app/coding-practice/backend/database
-sudo -u practice-app-dply sqlite3 database.db ".read deploy.sql"
+sudo -u practice-app sqlite3 database.db ".read deploy.sql"
 sudo cd /home/practice-app/coding-practice
 
 # Setup Python virtual environment

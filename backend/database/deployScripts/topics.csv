@@ -1,0 +1,73 @@
+id,name,slug
+1,Array,array
+2,Backtracking,backtracking
+3,Biconnected Component,biconnected-component
+4,Binary Indexed Tree,binary-indexed-tree
+5,Binary Search,binary-search
+6,Binary Search Tree,binary-search-tree
+7,Binary Tree,binary-tree
+8,Bit Manipulation,bit-manipulation
+9,Bitmask DP,bitmask
+10,Brainteaser,brainteaser
+11,Breadth-First Search,breadth-first-search
+12,Bucket Sort,bucket-sort
+13,Combinatorics,combinatorics
+14,Concurrency,concurrency
+15,Counting,counting
+16,Counting Sort,counting-sort
+17,Data Stream,data-stream
+18,Database,database
+19,Depth-First Search,depth-first-search
+20,Design,design
+21,Divide and Conquer,divide-and-conquer
+22,Doubly-Linked List,doubly-linked-list
+23,Dynamic Programming,dynamic-programming
+24,Enumeration,enumeration
+25,Eulerian Circuit,eulerian-circuit
+26,Game Theory,game-theory
+27,Geometry,geometry
+28,Graph Theory,graph
+29,Greedy,greedy
+30,Hash Function,hash-function
+31,Hash Table,hash-table
+32,Heap (Priority Queue),heap-priority-queue
+33,Interactive,interactive
+34,Iterator,iterator
+35,Sweep Line,line-sweep
+36,Linked List,linked-list
+37,Math,math
+38,Matrix,matrix
+39,Memoization,memoization
+40,Merge Sort,merge-sort
+41,Minimum Spanning Tree,minimum-spanning-tree
+42,Monotonic Queue,monotonic-queue
+43,Monotonic Stack,monotonic-stack
+44,Number Theory,number-theory
+45,Ordered Set,ordered-set
+46,Prefix Sum,prefix-sum
+47,Probability and Statistics,probability-and-statistics
+48,Queue,queue
+49,Quickselect,quickselect
+50,Radix Sort,radix-sort
+51,Randomized,randomized
+52,Recursion,recursion
+53,Rejection Sampling,rejection-sampling
+54,Reservoir Sampling,reservoir-sampling
+55,Rolling Hash,rolling-hash
+56,Segment Tree,segment-tree
+57,Shell,shell
+58,Shortest Path,shortest-path
+59,Simulation,simulation
+60,Sliding Window,sliding-window
+61,Sort,sort
+62,Sorting,sorting
+63,Stack,stack
+64,String,string
+65,String Matching,string-matching
+66,Strongly Connected Component,strongly-connected-component
+67,Suffix Array,suffix-array
+68,Topological Sort,topological-sort
+69,Tree,tree
+70,Trie,trie
+71,Two Pointers,two-pointers
+72,Union-Find,union-find

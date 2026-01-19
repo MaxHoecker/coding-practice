@@ -10,5 +10,4 @@ class Question:
     title: str
     titleSlug: str
     difficulty: str
-    acRate: str
 

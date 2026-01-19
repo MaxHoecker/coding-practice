@@ -2,14 +2,13 @@
 -- Stores coding practice questions with their metadata
 
 CREATE TABLE IF NOT EXISTS questions(
+    difficulty TEXT NOT NULL,
     id INTEGER PRIMARY KEY,
-    topicId INTEGER REFERENCES topics(id),
-    questionFrontendId INTEGER NOT NULL,
     paidOnly BOOLEAN NOT NULL,
+    questionFrontendId INTEGER NOT NULL,
     title TEXT NOT NULL,
     titleSlug TEXT NOT NULL,
-    difficulty TEXT NOT NULL,
-    acRate REAL NOT NULL
+    acRate DECIMAL NOT NULL
 );
 
 -- Add index on difficulty for faster filtering

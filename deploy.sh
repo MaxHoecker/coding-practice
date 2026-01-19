@@ -106,7 +106,7 @@ chmod -R 755 /usr/share/nginx/frontend/
 
 print_status "running database deploy script deploy.sql..."
 cd /home/practice-app/coding-practice/backend/database
-sudo -u practice-app sqlite3 database.db ".read deploy.sql"
+sudo -u practice-app-dply sqlite3 database.db ".read deploy.sql"
 cd /home/practice-app/coding-practice
 
 # Setup Python virtual environment

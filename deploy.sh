@@ -109,6 +109,29 @@ cd /home/practice-app/coding-practice/backend/database
 sqlite3 database.db ".read deploy.sql"
 cd /home/practice-app/coding-practice
 
+# Setup Python virtual environment
+print_status "Setting up Python virtual environment..."
+BACKEND_DIR="/home/practice-app/coding-practice/backend"
+
+# Remove old virtual environment if it exists
+if [[ -d "$BACKEND_DIR/.venv" ]]; then
+    print_status "Removing old virtual environment..."
+    rm -rf "$BACKEND_DIR/.venv"
+fi
+
+# Create new virtual environment
+print_status "Creating new virtual environment..."
+python3.12 -m venv "$BACKEND_DIR/.venv"
+
+# Activate virtual environment and install requirements
+print_status "Installing Python dependencies..."
+source "$BACKEND_DIR/.venv/bin/activate"
+pip install --upgrade pip
+pip install -r "$BACKEND_DIR/requirements.txt"
+deactivate
+
+print_status "Virtual environment setup completed"
+
 # Handle systemd service
 SERVICE_SOURCE="/home/practice-app/coding-practice/backend/fastapi-backend.service"
 SERVICE_DEST="/etc/systemd/system/fastapi-backend.service"

@@ -1,43 +1,48 @@
-from services.csv_database import CSVDatabase
-from models import UserAttempt
-from typing import Optional
+from schemas import QuestionResponse
+from services.sqlite_database import SQLiteDatabase
+from models import UserAttempt, User
 from datetime import datetime
-import uuid
 import random
 
 class UserAttemptService:
-    def __init__(self, db: CSVDatabase):
+    def __init__(self, db: SQLiteDatabase):
         self.db = db
     
-    def get_question(self, user_id: str) -> dict:
+    def get_question(self, user_id: str) -> dict | None:
         """Get a question for the user and log the attempt"""
-        # For now, just get the first available question
+
+        user = self.db.get_user(user_id)
+
+        if user is None:
+            user = User(
+                id=user_id,
+                created_at=datetime.now().isoformat()
+            )
+            self.db.create_user(user)
+
         questions = self.db.get_all_questions()
         if not questions:
-            return {"message": "No questions available"}
-        
-        question = questions[random.randrange(0, len(questions))]  # Simple logic - get first question
-        
+            return None
+
+        question = questions[random.randrange(0, len(questions))]  # Simple logic - get random question
+
         # Create user attempt record
         attempt = UserAttempt(
-            id=str(uuid.uuid4()),
             user_id=user_id,
             question_id=str(question.id),
             status="started",
             timestamp=datetime.now().isoformat()
         )
-        
+
         self.db.create_user_attempt(attempt)
-        
+
+        # Convert to schema response
+        question_response = QuestionResponse.from_model(question)
+
         return {
             "message": "Question retrieved",
             "userId": user_id,
-            "question": {
-                "id": question.id,
-                "name": question.name,
-                "difficulty": question.difficulty,
-                "topics": question.topics
-            }
+            "question": question_response.model_dump()
         }
     
     def change_question_status(self, user_id: str, status: str) -> dict:
@@ -50,17 +55,16 @@ class UserAttemptService:
         
         # Get the most recent attempt (assuming sorted by creation order)
         latest_attempt = user_attempts[-1]
-        
-        # Update the attempt status
-        updated_attempt = UserAttempt(
-            id=latest_attempt.id,
-            user_id=latest_attempt.user_id,
+
+        # Create new attempt status
+        new_attempt = UserAttempt(
+            user_id=user_id,
             question_id=latest_attempt.question_id,
             status=status,
             timestamp=datetime.now().isoformat()
         )
         
-        result = self.db.update_user_attempt(latest_attempt.id, updated_attempt)
+        result = self.db.create_user_attempt(new_attempt)
         
         if result:
             return {

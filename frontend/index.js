@@ -47,7 +47,7 @@ async function startPractice() {
             const data = await response.json();
 
             // Assuming the backend returns a URL to redirect to
-            const redirectUrl = `https://leetcode.com/problems/${data.question.name}/description/`;
+            const redirectUrl = `https://leetcode.com/problems/${data.question.titleSlug}/description/`;
 
             // Open in new tab
             window.open(redirectUrl, '_blank');

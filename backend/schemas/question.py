@@ -1,13 +1,34 @@
 from pydantic import BaseModel
-from typing import List
+from models import Question as QuestionModel
+
 
 class QuestionCreate(BaseModel):
-    name: str
+    questionFrontendId: int
+    paidOnly: bool
+    title: str
+    titleSlug: str
     difficulty: str
-    topics: List[str]
+    acRate: float
+
 
 class QuestionResponse(BaseModel):
     id: int
-    name: str
+    questionFrontendId: int
+    paidOnly: bool
+    title: str
+    titleSlug: str
     difficulty: str
-    topics: List[str]
+    acRate: float
+
+    @classmethod
+    def from_model(cls, question: QuestionModel) -> "QuestionResponse":
+        """Factory method to convert Question dataclass to QuestionResponse schema"""
+        return cls(
+            id=question.id,
+            questionFrontendId=question.questionFrontendId,
+            paidOnly=question.paidOnly,
+            title=question.title,
+            titleSlug=question.titleSlug,
+            difficulty=question.difficulty,
+            acRate=question.acRate
+        )

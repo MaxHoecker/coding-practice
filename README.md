@@ -59,7 +59,7 @@ A full-stack web application for simplifying the coding practice process.
 
 3. Start the FastAPI server:
    ```bash
-   uvicorn main:app --reload --host 0.0.0.0 --port 8000
+   fastapi dev
    ```
 
    The API will be available at `http://localhost:8000`

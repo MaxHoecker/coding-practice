@@ -10,6 +10,3 @@ CREATE TABLE IF NOT EXISTS questions(
     titleSlug TEXT NOT NULL,
     acRate DECIMAL NOT NULL
 );
-
--- Add index on difficulty for faster filtering
- CREATE INDEX IF NOT EXISTS idx_questions_difficulty ON questions(difficulty);

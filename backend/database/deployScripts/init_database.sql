@@ -4,13 +4,15 @@
 -- Enable foreign key constraints
 PRAGMA foreign_keys = ON;
 
+DROP TABLE question_tags;
+DROP TABLE user_attempts;
+DROP TABLE questions;
 DROP TABLE topics;
+
 .read schemas/topics.sql
 
-DROP TABLE questions;
 .read schemas/questions.sql
 
-DROP TABLE question_tags;
 .read schemas/question_tags.sql
 
 .read schemas/users.sql

@@ -1,8 +1,7 @@
 import sqlite3
 import os
-import json
 from typing import List, Optional
-from models import Question, User, UserAttempt
+from models import Question, User, UserAttempt, Status
 
 
 class SQLiteDatabase:
@@ -111,3 +110,44 @@ class SQLiteDatabase:
                 )
                 for row in rows
             ]
+
+    # Make aware of other user fields
+    def get_new_question_ids_for_user(self, user_id: str) -> List[int]:
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT q.id " +
+                "FROM questions q " +
+                "LEFT JOIN user_attempts ua ON q.id = ua.question_id AND ua.user_id = ? " +
+                "WHERE ua.status == 'started' OR ua.status IS NULL;",
+                (user_id,)
+            )
+            rows = cursor.fetchall()
+
+            return [row[0] for row in rows]
+
+    # Make unique on question id
+    def get_valid_attempted_question_by_user(self, user_id: str, attempted_before_days: int) -> List[int]:
+        datetime_str = '-'+str(attempted_before_days)+" days"
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT question_id FROM user_attempts WHERE user_id = ? AND timestamp < strftime('%Y-%m-%dT%H:%M:%S.%f', 'now', ?) AND status = ?;",
+                (user_id, datetime_str, Status.ATTEMPTED.value)
+            )
+            rows = cursor.fetchall()
+
+            return [row[0] for row in rows]
+
+    # Make unique on question id
+    def get_valid_completed_question_by_user(self, user_id: str, completed_before_days: int) -> List[int]:
+        datetime_str = '-' + str(completed_before_days) + " days"
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT question_id FROM user_attempts WHERE user_id = ? AND timestamp < strftime('%Y-%m-%dT%H:%M:%S.%f', 'now', ?) AND status = ?;",
+                (user_id, datetime_str, Status.COMPLETED.value)
+            )
+            rows = cursor.fetchall()
+
+            return [row[0] for row in rows]

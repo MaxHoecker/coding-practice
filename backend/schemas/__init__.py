@@ -1,9 +1,9 @@
-from .question import QuestionCreate, QuestionResponse
+from .question import QuestionResponse
 from .user import UserCreate, UserResponse
 from .user_attempt import UserAttemptCreate, UserAttemptResponse
 
 __all__ = [
-    "QuestionCreate", "QuestionResponse",
+    "QuestionResponse",
     "UserCreate", "UserResponse", 
     "UserAttemptCreate", "UserAttemptResponse"
 ]

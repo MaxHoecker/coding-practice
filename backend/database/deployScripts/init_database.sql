@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS question_tags;
 DROP TABLE IF EXISTS user_attempts;
 DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS topics;
+DROP TABLE IF EXISTS users;
 
 .read schemas/topics.sql
 
@@ -18,5 +19,6 @@ DROP TABLE IF EXISTS topics;
 .read schemas/users.sql
 .read schemas/questions.sql
 .read schemas/user_attempts.sql
+.read schemas/user_topics.sql
 
 .read deployScripts/load_data.sql

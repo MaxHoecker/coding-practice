@@ -70,15 +70,60 @@ class SQLiteDatabase:
     def get_user(self, user_id: str) -> Optional[User]:
         with self._get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute(
-                "SELECT id, created_at FROM users WHERE id = ?",
-                (user_id,)
-            )
+            cursor.execute("""
+                SELECT id, created_at, new_question_weight, attempted_weight,
+                       completed_weight, easy_difficulty, medium_difficulty,
+                       hard_difficulty, attempted_timing_days, completed_timing_days,
+                       view_paid_only
+                FROM users WHERE id = ?
+            """, (user_id,))
             row = cursor.fetchone()
 
             if row:
-                return User(id=row[0], created_at=row[1])
+                return User(
+                    id=row[0],
+                    created_at=row[1],
+                    new_question_weight=row[2],
+                    attempted_weight=row[3],
+                    completed_weight=row[4],
+                    easy_difficulty=bool(row[5]),
+                    medium_difficulty=bool(row[6]),
+                    hard_difficulty=bool(row[7]),
+                    attempted_timing_days=row[8],
+                    completed_timing_days=row[9],
+                    view_paid_only=bool(row[10])
+                )
         return None
+
+    def update_user(self, user: User) -> User:
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                UPDATE users SET
+                    new_question_weight = ?,
+                    attempted_weight = ?,
+                    completed_weight = ?,
+                    easy_difficulty = ?,
+                    medium_difficulty = ?,
+                    hard_difficulty = ?,
+                    attempted_timing_days = ?,
+                    completed_timing_days = ?,
+                    view_paid_only = ?
+                WHERE id = ?
+            """, (
+                user.new_question_weight,
+                user.attempted_weight,
+                user.completed_weight,
+                user.easy_difficulty,
+                user.medium_difficulty,
+                user.hard_difficulty,
+                user.attempted_timing_days,
+                user.completed_timing_days,
+                user.view_paid_only,
+                user.id
+            ))
+            conn.commit()
+        return user
 
     # UserAttempt CRUD operations
     def create_user_attempt(self, attempt: UserAttempt) -> UserAttempt:

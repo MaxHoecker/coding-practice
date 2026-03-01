@@ -73,10 +73,7 @@ A full-stack web application for simplifying the coding practice process.
 
 2. Serve the static files using any web server. For example:
    ```bash
-   # Using Python's built-in server
-   python -m http.server 3000
-   
-   # Or using Node.js serve
+   # Using Node.js serve
    npx serve -p 3000
    ```
 

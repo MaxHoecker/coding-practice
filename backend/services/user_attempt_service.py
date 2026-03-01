@@ -1,7 +1,7 @@
 from sys import exception
 from zoneinfo import ZoneInfo
 
-from schemas import QuestionResponse
+from schemas import QuestionResponse, UserSettingsRequest
 from services.sqlite_database import SQLiteDatabase
 from models import UserAttempt, User, Status
 from datetime import datetime, timezone
@@ -118,7 +118,51 @@ class UserAttemptService:
 
         return user
 
-    
+    def validate_settings(self, settings: UserSettingsRequest) -> tuple[bool, str]:
+        """Validate settings meet business rules"""
+        # Check percentages sum to 100
+        total = (settings.percentages.new +
+                 settings.percentages.attempted +
+                 settings.percentages.completed)
+        if total != 100:
+            return False, "Percentages must sum to 100"
+
+        # Check at least one difficulty selected
+        if not (settings.difficulty.easy or
+                settings.difficulty.medium or
+                settings.difficulty.hard):
+            return False, "At least one difficulty level must be selected"
+
+        # Check timing values are valid (>= -1 for "never" mode)
+        if settings.timing.attemptedDelay < -1 or settings.timing.completedDelay < -1:
+            return False, "Timing values must be -1 or greater"
+
+        return True, ""
+
+    def update_user_settings(self, user_id: str, settings: UserSettingsRequest) -> User:
+        """Update user settings with validation"""
+        # Get or create user (reuses existing pattern)
+        user = self.get_user(user_id)
+
+        # Validate settings
+        is_valid, error_msg = self.validate_settings(settings)
+        if not is_valid:
+            raise ValueError(error_msg)
+
+        # Map frontend fields to backend User model
+        user.new_question_weight = settings.percentages.new
+        user.attempted_weight = settings.percentages.attempted
+        user.completed_weight = settings.percentages.completed
+        user.attempted_timing_days = settings.timing.attemptedDelay
+        user.completed_timing_days = settings.timing.completedDelay
+        user.easy_difficulty = settings.difficulty.easy
+        user.medium_difficulty = settings.difficulty.medium
+        user.hard_difficulty = settings.difficulty.hard
+
+        # Update in database
+        return self.db.update_user(user)
+
+
     def change_question_status(self, user_id: str, status: str) -> dict:
         """Change the status of the user's current question attempt"""
         # Get the user's most recent attempt

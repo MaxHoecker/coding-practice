@@ -2,6 +2,16 @@ const BACKEND_URL = window.location.hostname === 'localhost' || window.location.
     ? 'http://localhost:8000'
     : 'https://coding-practice.com/api';
 
+// User ID management
+function getUserId() {
+    let userId = localStorage.getItem('userId');
+    if (!userId) {
+        userId = crypto.randomUUID();
+        localStorage.setItem('userId', userId);
+    }
+    return userId;
+}
+
 let isUpdating = false;
 
 const sliders = {
@@ -138,6 +148,7 @@ async function saveSettings() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'X-User-ID': getUserId()
             },
             body: JSON.stringify(settings)
         });
@@ -155,7 +166,11 @@ async function saveSettings() {
 
 async function loadSettings() {
     try {
-        const response = await fetch(`${BACKEND_URL}/user/settings`);
+        const response = await fetch(`${BACKEND_URL}/user/settings`, {
+            headers: {
+                'X-User-ID': getUserId()
+            }
+        });
 
         if (response.ok) {
             const settings = await response.json();

@@ -3,7 +3,7 @@ from zoneinfo import ZoneInfo
 
 from schemas import QuestionResponse, UserSettingsRequest
 from services.sqlite_database import SQLiteDatabase
-from models import UserAttempt, User, Status
+from models import UserAttempt, User, Status, Question
 from datetime import datetime, timezone
 import random
 
@@ -16,7 +16,37 @@ class UserAttemptService:
         now_local = datetime.now(local_tz)
         naive_now_utc = now_local.astimezone(timezone.utc).replace(tzinfo=None)
         return naive_now_utc.isoformat()
-    
+
+    # maybe move this into an object?
+    def calculate_user_question_status(self, user: User, random_index=-1, attempted_disabled=False, completed_disabled=False) -> str | None:
+        new_question_weight = user.new_question_weight
+        attempted_weight = user.attempted_weight
+        completed_weight = user.completed_weight
+
+        if attempted_disabled:
+            attempted_weight = 0
+
+        if completed_disabled:
+            completed_weight = 0
+
+        if attempted_disabled and completed_disabled:
+            return Status.NEW.value
+
+        new_question_range = new_question_weight
+        attempted_range = attempted_weight + new_question_range
+        completed_range = completed_weight + attempted_range
+
+        if random_index == -1:
+            random_index = random.randrange(0, completed_range)
+
+        if random_index < new_question_range:
+            return Status.NEW.value
+        if random_index < attempted_range:
+            return Status.ATTEMPTED.value
+        if random_index < completed_range:
+            return Status.COMPLETED.value
+        return None
+
     def get_question(self, user_id: str) -> dict | None:
         """Get a question for the user and log the attempt"""
 
@@ -52,6 +82,7 @@ class UserAttemptService:
         attempted_disabled=False
         completed_disabled=False
 
+        # Difficulty filtering is handled by the SQL queries
         attempted_question_pool = self.db.get_valid_attempted_question_by_user(user.id, user.attempted_timing_days)
         completed_question_pool = self.db.get_valid_completed_question_by_user(user.id, user.completed_timing_days)
 
@@ -66,45 +97,13 @@ class UserAttemptService:
             return None
 
         if status_to_choose == Status.ATTEMPTED:
-            return attempted_question_pool[random.randint(0, len(attempted_question_pool))]
+            return attempted_question_pool[random.randint(0, len(attempted_question_pool) - 1)]
         elif status_to_choose == Status.COMPLETED:
-            return completed_question_pool[random.randint(0, len(completed_question_pool))]
+            return completed_question_pool[random.randint(0, len(completed_question_pool) - 1)]
 
         new_question_pool = self.db.get_new_question_ids_for_user(user.id)
 
-        return new_question_pool[random.randint(0, len(new_question_pool))]
-
-
-
-    # maybe move this into an object?
-    def calculate_user_question_status(self, user: User, random_index=-1, attempted_disabled=False, completed_disabled=False) -> str | None:
-        new_question_weight = user.new_question_weight
-        attempted_weight = user.attempted_weight
-        completed_weight = user.completed_weight
-
-        if attempted_disabled:
-            attempted_weight = 0
-
-        if completed_disabled:
-            completed_weight = 0
-
-        if attempted_disabled and completed_disabled:
-            return Status.NEW.value
-
-        new_question_range = new_question_weight
-        attempted_range = attempted_weight + new_question_range
-        completed_range = completed_weight + attempted_range
-
-        if random_index == -1:
-            random_index = random.randrange(0, completed_range)
-
-        if random_index < new_question_range:
-            return Status.NEW.value
-        if random_index < attempted_range:
-            return Status.ATTEMPTED.value
-        if random_index < completed_range:
-            return Status.COMPLETED.value
-        return None
+        return new_question_pool[random.randint(0, len(new_question_pool) - 1)]
 
     def get_user(self, user_id) -> User:
         user = self.db.get_user(user_id)

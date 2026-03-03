@@ -160,13 +160,19 @@ class SQLiteDatabase:
     def get_new_question_ids_for_user(self, user_id: str) -> List[int]:
         with self._get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute(
-                "SELECT q.id " +
-                "FROM questions q " +
-                "LEFT JOIN user_attempts ua ON q.id = ua.question_id AND ua.user_id = ? " +
-                "WHERE ua.status == 'started' OR ua.status IS NULL;",
-                (user_id,)
-            )
+            cursor.execute("""
+                SELECT q.id
+                FROM questions q
+                JOIN users u ON u.id = ?
+                LEFT JOIN user_attempts ua ON q.id = ua.question_id AND ua.user_id = ?
+                WHERE (ua.status = 'started' OR ua.status IS NULL)
+                  AND q.paidOnly = 0
+                  AND (
+                    (u.easy_difficulty = 1 AND q.difficulty = 'EASY') OR
+                    (u.medium_difficulty = 1 AND q.difficulty = 'MEDIUM') OR
+                    (u.hard_difficulty = 1 AND q.difficulty = 'HARD')
+                  )
+            """, (user_id, user_id))
             rows = cursor.fetchall()
 
             return [row[0] for row in rows]
@@ -176,10 +182,21 @@ class SQLiteDatabase:
         datetime_str = '-'+str(attempted_before_days)+" days"
         with self._get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute(
-                "SELECT question_id FROM user_attempts WHERE user_id = ? AND timestamp < strftime('%Y-%m-%dT%H:%M:%S.%f', 'now', ?) AND status = ?;",
-                (user_id, datetime_str, Status.ATTEMPTED.value)
-            )
+            cursor.execute("""
+                SELECT ua.question_id
+                FROM user_attempts ua
+                JOIN questions q ON ua.question_id = q.id
+                JOIN users u ON u.id = ua.user_id
+                WHERE ua.user_id = ?
+                  AND ua.timestamp < strftime('%Y-%m-%dT%H:%M:%S.%f', 'now', ?)
+                  AND ua.status = ?
+                  AND q.paidOnly = 0
+                  AND (
+                    (u.easy_difficulty = 1 AND q.difficulty = 'EASY') OR
+                    (u.medium_difficulty = 1 AND q.difficulty = 'MEDIUM') OR
+                    (u.hard_difficulty = 1 AND q.difficulty = 'HARD')
+                  )
+            """, (user_id, datetime_str, Status.ATTEMPTED.value))
             rows = cursor.fetchall()
 
             return [row[0] for row in rows]
@@ -189,10 +206,21 @@ class SQLiteDatabase:
         datetime_str = '-' + str(completed_before_days) + " days"
         with self._get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute(
-                "SELECT question_id FROM user_attempts WHERE user_id = ? AND timestamp < strftime('%Y-%m-%dT%H:%M:%S.%f', 'now', ?) AND status = ?;",
-                (user_id, datetime_str, Status.COMPLETED.value)
-            )
+            cursor.execute("""
+                SELECT ua.question_id
+                FROM user_attempts ua
+                JOIN questions q ON ua.question_id = q.id
+                JOIN users u ON u.id = ua.user_id
+                WHERE ua.user_id = ?
+                  AND ua.timestamp < strftime('%Y-%m-%dT%H:%M:%S.%f', 'now', ?)
+                  AND ua.status = ?
+                  AND q.paidOnly = 0
+                  AND (
+                    (u.easy_difficulty = 1 AND q.difficulty = 'EASY') OR
+                    (u.medium_difficulty = 1 AND q.difficulty = 'MEDIUM') OR
+                    (u.hard_difficulty = 1 AND q.difficulty = 'HARD')
+                  )
+            """, (user_id, datetime_str, Status.COMPLETED.value))
             rows = cursor.fetchall()
 
             return [row[0] for row in rows]
